@@ -1,5 +1,6 @@
 #include <iostream>
 #include <chrono>
+#include <iomanip>
 
 constexpr int MAXSIZE = 960;
 
@@ -9,16 +10,21 @@ int n, k, m;
 
 inline void MMUL() noexcept
 {
-	for (int x = 0; x < n; ++x)
-		for (int y = 0; y < m; ++y)
-			for (int z = 0; z < k; ++z)
-				C[x][y] += A[x][z] * B[z][y];
+	for (int x = 0; x < n; x += BLOCK)
+		for (int z = 0; z < k; z += BLOCK)
+			for (int y = 0; y < m; y += BLOCK)
+			{
+				for (int xx = x; xx < std::min(n, x + BLOCK); ++xx)
+					for (int zz = z; zz < std::min(k, z + BLOCK); ++zz)
+						for (int yy = y; yy < std::min(m, y + BLOCK); ++yy)
+							C[xx][yy] += A[xx][zz] * B[zz][yy];
+			}
 }
 
 
 int main()
 {
-	ios_base::sync_with_stdio(false);
+	std::ios_base::sync_with_stdio(false);
 	std::cin.tie(0);
 
 	std::cin >> n >> k >> m;
@@ -35,7 +41,7 @@ int main()
 	auto end = std::chrono::high_resolution_clock::now();
 	auto T = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 
-	cerr << "chrono measure time: " << T;
+	std::cerr << T.count() << '\n';
 
 	for (int i = 0; i < n; ++i)
 		for (int j = 0; j < m; ++j)
