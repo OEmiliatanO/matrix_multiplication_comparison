@@ -10,5 +10,7 @@ depO2: blocked-cache-matrix.cpp
 	$(CC) -Wall -DBLOCK=$(B) -O2 -c blocked-cache-matrix.cpp
 depO3: blocked-cache-matrix.cpp
 	$(CC) -Wall -DBLOCK=$(B) -O3 -c blocked-cache-matrix.cpp
+depOfast: blocked-cache-matrix.cpp
+	$(CC) -Wall -DBLOCK=$(B) -Ofast -c blocked-cache-matrix.cpp
 clean:
 	-rm *.o

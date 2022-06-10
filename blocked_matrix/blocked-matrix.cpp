@@ -44,8 +44,11 @@ int main()
 	std::cerr << T.count() << '\n';
 
 	for (int i = 0; i < n; ++i)
+	{
 		for (int j = 0; j < m; ++j)
-			std::cout << C[i][j];
+			std::cout << C[i][j] << ' ';
+		std::cout << '\n';
+	}
 
 	return 0;
 }

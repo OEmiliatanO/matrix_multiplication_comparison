@@ -1,0 +1,15 @@
+CC:=g++
+FLAG:=-msse -msse2 -msse3 -mssse3 -msse4 -msse4a -msse4.1 -msse4.2
+
+all: vector-matrix.o
+	$(CC) -o vector-matrix vector-matrix.o
+dep: vector-matrix.cpp
+	$(CC) $(FLAG) -Wall -O0 -c vector-matrix.cpp
+depO1: vector-matrix.cpp
+	$(CC) $(FLAG) -Wall -O1 -c vector-matrix.cpp
+depO2: vector-matrix.cpp
+	$(CC) $(FLAG) -Wall -O2 -c vector-matrix.cpp
+depO3: vector-matrix.cpp
+	$(CC) $(FLAG) -Wall -O3 -c vector-matrix.cpp
+clean:
+	-rm *.o

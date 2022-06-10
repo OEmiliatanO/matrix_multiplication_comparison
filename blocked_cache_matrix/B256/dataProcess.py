@@ -17,8 +17,9 @@ for File in files:
 		if s == '' or not s[0].isnumeric():
 			break
 		times.append(int(s))
-	fs.write('avg,%.5f s\n'%(sum(times)/len(times)*1e-9))
-	fs.write('std,%.5f s\n'%(numpy.std(times)*1e-9))
-	fs.write('avg gflops,%.5f\n\n'%(n ** 3 / (sum(times)/len(times))))
+	fs.write("n=%d\n"%n)
+	fs.write('avg: %.5f s\n'%(sum(times)/len(times)*1e-9))
+	fs.write('std: %.5f s\n'%(numpy.std(times)*1e-9))
+	fs.write('avg gflops: %.5f\n\n'%(n ** 3 / (sum(times)/len(times))))
 	f.close()
 	fs.close()
