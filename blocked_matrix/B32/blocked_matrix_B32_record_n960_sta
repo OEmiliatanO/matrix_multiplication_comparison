@@ -1,4 +1,5 @@
-avg,7.71897 s
-std,0.34988 s
-avg gflops,0.11462
+n=960
+avg: 4.88496 s
+std: 0.35690 s
+avg gflops: 0.18111
 

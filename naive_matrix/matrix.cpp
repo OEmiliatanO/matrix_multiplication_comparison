@@ -40,9 +40,11 @@ int main()
 	//std::cerr << "chrono measure time: " << T.count() * 1e-9 << " s\n";
 	std::cerr << T.count() << '\n'; // ns
 
+#ifdef OUTPUT
 	for (int i = 0; i < n; ++i)
 		for (int j = 0; j < m; ++j)
 			std::cout << C[i][j];
+#endif
 
 	return 0;
 }
