@@ -19,9 +19,9 @@ inline void MMUL() noexcept
 				maxx = min(n, x + BLOCK);
 				maxy = min(m, y + BLOCK);
 				maxz = min(k, z + BLOCK);
-				for (int xx = x; xx < maxx; ++xx)
-					for (int zz = z; zz < maxz; ++zz)
-						for (int yy = y; yy < maxy; ++yy)
+				for (xx = x; xx < maxx; ++xx)
+					for (zz = z; zz < maxz; ++zz)
+						for (yy = y; yy < maxy; ++yy)
 							C[xx][yy] += A[xx][zz] * B[zz][yy];
 			}
 }
