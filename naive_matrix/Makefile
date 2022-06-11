@@ -2,7 +2,7 @@ CC:=g++
 
 all: matrix.o
 	$(CC) -o matrix matrix.o
-dep: matrix.cpp
+depO0: matrix.cpp
 	$(CC) -Wall -O0 -c matrix.cpp
 depO1: matrix.cpp
 	$(CC) -Wall -O1 -c matrix.cpp
