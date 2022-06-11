@@ -5,7 +5,7 @@ import numpy
 directory = os.listdir()
 
 for File in directory:
-	if re.match("recordO[0-9]+", File) != None:
+	if re.match("recordO[fast0-9]+", File) != None:
 		print("in ./" + File, "process data")
 		ddir = File
 		datafile = os.listdir(ddir)
