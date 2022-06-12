@@ -55,17 +55,19 @@ width = 0.1
 
 for oflag in range(5):
 	plt.figure(oflag)
-	plt.title('O' + ('Ofast' if oflag == 4 else str(oflag)))
+	plt.title('blocked matrix ver.2 -O' + ('fast' if oflag == 4 else str(oflag)))
 	for n in range(5):
 		plt.bar(X+width*(n-2), dataGflops[oflag][n], width, label = 'n='+str((n+1)*192))
 	plt.ylabel('gflops')
 	plt.xlabel('block size')
 	plt.xticks(X, BLOCK)
-	"""if oflag == 0:
-		plt.yticks(np.arange(0, 0.5, 0.125))
+	if oflag == 0:
+		plt.yticks(np.arange(0, 1.25, 0.25))
+	elif oflag <= 4:
+		plt.yticks(np.arange(0, 5, 0.5))
 	else:
-		plt.yticks(np.arange(0, 5, 0.5))"""
-	plt.yticks(np.arange(0, 5, 0.5))
+		plt.yticks(np.arange(0, 12, 0.5))
+	#plt.yticks(np.arange(0, 12, 0.5))
 	plt.legend(loc = 'best')
 
 plt.show()

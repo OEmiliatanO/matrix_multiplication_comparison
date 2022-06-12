@@ -5,19 +5,14 @@ import re
 
 directory = os.listdir()
 
-BLOCK = [4,8,16,32,64,70,80,90,128,256]
-
 dataGflops = [0] * 5
 for i in range(5):
-	dataGflops[i] = [0] * 10
-	for j in range(5):
-		dataGflops[i][j] = [0] * 10
+	dataGflops[i] = [0] * 5
 
 for wdir in directory:
-	if re.match("B[0-9]+O[fast0-9]+", wdir) == None:
+	if re.match("recordO[fast0-9]+", wdir) == None:
 		continue
 
-	block = int(wdir[1:wdir.index('O')])
 	oflag = wdir[wdir.index('O') + 1:]
 	if oflag[0] == 'f':
 		oflag = 4
@@ -33,7 +28,7 @@ for wdir in directory:
 		n = int(s[s.index('=') + 1:])
 		while (s:=f.readline()).find('avg gflops') == -1: pass
 		gflops = float(s[s.index(':') + 1:])
-		dataGflops[oflag][n//192 - 1][BLOCK.index(block)] = gflops
+		dataGflops[oflag][n//192 - 1] = gflops
 
 dataGflops = np.array(dataGflops)
 
@@ -44,28 +39,25 @@ for i in range(5):
 		print('O' + str(i) + ':')
 	for j in range(5):
 		print('n = ' + str((j + 1) * 192) + ':')
-		for k in range(10):
-			print('block=' + str(BLOCK[k]))
-			print('gflops=' + str(dataGflops[i][j][k]))
-		print('')
+		print('gflops=' + str(dataGflops[i][j]))
 	print('')
 
-X = np.arange(len(BLOCK))
-width = 0.1
+width = 0.6
+baseX = 0.5
 
 for oflag in range(5):
 	plt.figure(oflag)
-	plt.title('O' + ('Ofast' if oflag == 4 else str(oflag)))
+	plt.title('vector matrix multiplication ver.2 -O' + ('fast' if oflag == 4 else str(oflag)))
 	for n in range(5):
-		plt.bar(X+width*(n-2), dataGflops[oflag][n], width, label = 'n='+str((n+1)*192))
+		plt.bar(baseX + width*n, dataGflops[oflag][n], width, edgecolor = 'black', label = 'n=' + str((n+1) * 192))
+	#plt.bar(X, dataGflops[oflag], width, label = 'n='+str((n+1)*192))
 	plt.ylabel('gflops')
-	plt.xlabel('block size')
-	plt.xticks(X, BLOCK)
-	"""if oflag == 0:
-		plt.yticks(np.arange(0, 0.5, 0.125))
+	if oflag == 0:
+		plt.yticks(np.arange(0, 1.25, 0.25))
 	else:
-		plt.yticks(np.arange(0, 5, 0.5))"""
-	plt.yticks(np.arange(0, 5, 0.5))
+		plt.yticks(np.arange(0, 13, 0.5))
+	plt.xticks([0,3.5], ['',''])
+	#plt.yticks(np.arange(0, 13, 0.5))
 	plt.legend(loc = 'best')
 
 plt.show()
