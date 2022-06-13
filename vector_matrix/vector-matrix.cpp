@@ -20,10 +20,10 @@ inline void MMUL() noexcept
 	for (int x = 0; x < n; x += 4)
 		for (int y = 0; y < m; y += 4)
 		{
-			__m128 r0 = _mm_setzero_ps();
-			__m128 r1 = _mm_setzero_ps();
-			__m128 r2 = _mm_setzero_ps();
-			__m128 r3 = _mm_setzero_ps();
+			__m128 r0 = _mm_load_ps(&C[x+0][y]);
+			__m128 r1 = _mm_load_ps(&C[x+1][y]);
+			__m128 r2 = _mm_load_ps(&C[x+2][y]);
+			__m128 r3 = _mm_load_ps(&C[x+3][y]);
 
 			for (int z = 0; z < k; z += 4)
 			{
@@ -66,65 +66,68 @@ inline void MMUL() noexcept
 				__m128 T19 = _mm_unpackhi_ps(T2, T3);
 
 				__m128 T20 = _mm_unpacklo_ps(T16, T17);
-				__m128 T21 = _mm_unpacklo_ps(T16, T17);
-				__m128 T22 = _mm_unpackhi_ps(T18, T19);
+				__m128 T21 = _mm_unpackhi_ps(T16, T17);
+				__m128 T22 = _mm_unpacklo_ps(T18, T19);
 				__m128 T23 = _mm_unpackhi_ps(T18, T19);
 
 				T20 = _mm_add_ps(T20, T21);
 				T20 = _mm_add_ps(T20, T22);
 				T20 = _mm_add_ps(T20, T23);
-
+				
+				T20 = _mm_shuffle_ps(T20, T20, 0xD8);
 				r0 = _mm_add_ps(T20, r0);
 				
 				T16 = _mm_unpacklo_ps(T4, T5);
 				T17 = _mm_unpacklo_ps(T6, T7);
-				T18 = _mm_unpacklo_ps(T4, T5);
-				T19 = _mm_unpacklo_ps(T6, T7);
+				T18 = _mm_unpackhi_ps(T4, T5);
+				T19 = _mm_unpackhi_ps(T6, T7);
 				
 				T20 = _mm_unpacklo_ps(T16, T17);
-				T21 = _mm_unpacklo_ps(T16, T17);
-				T22 = _mm_unpackhi_ps(T18, T19);
+				T21 = _mm_unpackhi_ps(T16, T17);
+				T22 = _mm_unpacklo_ps(T18, T19);
 				T23 = _mm_unpackhi_ps(T18, T19);
 
 				T20 = _mm_add_ps(T20, T21);
 				T20 = _mm_add_ps(T20, T22);
 				T20 = _mm_add_ps(T20, T23);
-
+				
+				T20 = _mm_shuffle_ps(T20, T20, 0xD8);
 				r1 = _mm_add_ps(T20, r1);
 
 				T16 = _mm_unpacklo_ps(T8, T9);
 				T17 = _mm_unpacklo_ps(T10, T11);
-				T18 = _mm_unpacklo_ps(T8, T9);
-				T19 = _mm_unpacklo_ps(T10, T11);
+				T18 = _mm_unpackhi_ps(T8, T9);
+				T19 = _mm_unpackhi_ps(T10, T11);
 				
 				T20 = _mm_unpacklo_ps(T16, T17);
-				T21 = _mm_unpacklo_ps(T16, T17);
-				T22 = _mm_unpackhi_ps(T18, T19);
+				T21 = _mm_unpackhi_ps(T16, T17);
+				T22 = _mm_unpacklo_ps(T18, T19);
 				T23 = _mm_unpackhi_ps(T18, T19);
 
 				T20 = _mm_add_ps(T20, T21);
 				T20 = _mm_add_ps(T20, T22);
 				T20 = _mm_add_ps(T20, T23);
 
+				T20 = _mm_shuffle_ps(T20, T20, 0xD8);
 				r2 = _mm_add_ps(T20, r2);
 				
 				T16 = _mm_unpacklo_ps(T12, T13);
 				T17 = _mm_unpacklo_ps(T14, T15);
-				T18 = _mm_unpacklo_ps(T12, T13);
-				T19 = _mm_unpacklo_ps(T14, T15);
+				T18 = _mm_unpackhi_ps(T12, T13);
+				T19 = _mm_unpackhi_ps(T14, T15);
 				
 				T20 = _mm_unpacklo_ps(T16, T17);
-				T21 = _mm_unpacklo_ps(T16, T17);
-				T22 = _mm_unpackhi_ps(T18, T19);
+				T21 = _mm_unpackhi_ps(T16, T17);
+				T22 = _mm_unpacklo_ps(T18, T19);
 				T23 = _mm_unpackhi_ps(T18, T19);
 
 				T20 = _mm_add_ps(T20, T21);
 				T20 = _mm_add_ps(T20, T22);
 				T20 = _mm_add_ps(T20, T23);
 
+				T20 = _mm_shuffle_ps(T20, T20, 0xD8);
 				r3 = _mm_add_ps(T20, r3);
 			}
-
 			_mm_store_ps(&C[x+0][y], r0);
 			_mm_store_ps(&C[x+1][y], r1);
 			_mm_store_ps(&C[x+2][y], r2);
@@ -145,7 +148,7 @@ int main()
 	
 	for (int i = 0; i < k; ++i)
 		for (int j = 0; j < m; ++j)
-			std::cin >> B[j][i];
+			std::cin >> B[i][j];
 	
 	auto begin = std::chrono::high_resolution_clock::now();
 	MMUL();
