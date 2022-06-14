@@ -23,7 +23,7 @@ int main()
 	std::cin.tie(0);
 
 	std::fstream fin;
-	fin.open("../TestData/n960", std::ios::in);
+	fin.open("../TestData/n768");
 
 	fin >> n >> k >> m;
 	for (int i = 0; i < n; ++i)
