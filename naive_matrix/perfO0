@@ -1,0 +1,6 @@
+        48,461,646      cache-misses              #    4.540 % of all cache refs      ( +- 11.90% )
+     1,067,320,326      cache-references                                              ( +-  2.53% )
+    52,413,831,567      instructions              #    3.41  insn per cycle           ( +-  0.00% )
+    15,360,089,940      cycles                                                        ( +-  0.88% )
+
+             4.055 +- 0.235 seconds time elapsed  ( +-  5.80% )
