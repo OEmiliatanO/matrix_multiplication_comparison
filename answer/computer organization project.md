@@ -987,14 +987,14 @@ GFLOPS of vector matrix ver.2 in O0:
 ![](https://i.imgur.com/AxELfJP.png)
 
 ```
- Performance counter stats for './vector-matrixO0V2' (10 runs):
+  Performance counter stats for './vector-matrixO0V2' (10 runs):
 
-         5,136,434      cache-misses              #    4.227 % of all cache refs      ( +- 24.77% )
-       121,505,626      cache-references                                              ( +-  3.66% )
-    15,415,859,793      instructions              #    2.07  insn per cycle           ( +-  0.00% )
-     7,445,628,148      cycles                                                        ( +-  1.21% )
+         4,113,644      cache-misses              #    3.435 % of all cache refs      ( +- 39.15% )
+       119,768,329      cache-references                                              ( +-  4.72% )
+     9,647,414,398      instructions              #    1.96  insn per cycle           ( +-  0.02% )
+     4,929,116,914      cycles                                                        ( +-  2.89% )
 
-             2.140 +- 0.197 seconds time elapsed  ( +-  9.19% )
+             1.557 +- 0.153 seconds time elapsed  ( +-  9.80% )
 ```
 
 GFLOPS of vector matrix ver.2 in O1:  
@@ -1004,12 +1004,12 @@ GFLOPS of vector matrix ver.2 in O1:
 ```
  Performance counter stats for './vector-matrixO1V2' (10 runs):
 
-         4,735,092      cache-misses              #    3.961 % of all cache refs      ( +- 34.17% )
-       119,535,729      cache-references                                              ( +-  4.75% )
-     9,645,654,696      instructions              #    1.97  insn per cycle           ( +-  0.00% )
-     4,896,032,179      cycles                                                        ( +-  2.38% )
+         6,865,125      cache-misses              #    6.530 % of all cache refs      ( +- 32.20% )
+       105,130,003      cache-references                                              ( +-  7.32% )
+     4,702,736,429      instructions              #    2.44  insn per cycle           ( +-  0.03% )
+     1,927,423,913      cycles                                                        ( +-  2.49% )
 
-             1.541 +- 0.147 seconds time elapsed  ( +-  9.53% )
+            0.7806 +- 0.0190 seconds time elapsed  ( +-  2.44% )
 ```
 
 GFLOPS of vector matrix ver.2 in O2:  
@@ -1019,12 +1019,12 @@ GFLOPS of vector matrix ver.2 in O2:
 ```
  Performance counter stats for './vector-matrixO2V2' (10 runs):
 
-         7,375,473      cache-misses              #    6.972 % of all cache refs      ( +- 31.18% )
-       105,792,088      cache-references                                              ( +-  7.99% )
-     4,699,904,061      instructions              #    2.42  insn per cycle           ( +-  0.00% )
-     1,938,986,716      cycles                                                        ( +-  2.55% )
+         5,772,104      cache-misses              #    5.213 % of all cache refs      ( +- 29.60% )
+       110,725,637      cache-references                                              ( +-  5.54% )
+     4,700,010,103      instructions              #    2.45  insn per cycle           ( +-  0.00% )
+     1,918,294,414      cycles                                                        ( +-  2.25% )
 
-            0.7454 +- 0.0365 seconds time elapsed  ( +-  4.89% )
+            0.7468 +- 0.0312 seconds time elapsed  ( +-  4.18% )
 ```
 
 GFLOPS of vector matrix ver.2 in O3:  
@@ -1034,12 +1034,12 @@ GFLOPS of vector matrix ver.2 in O3:
 ```
  Performance counter stats for './vector-matrixO3V2' (10 runs):
 
-         7,005,665      cache-misses              #    6.533 % of all cache refs      ( +- 32.81% )
-       107,227,185      cache-references                                              ( +-  7.46% )
-     4,700,863,500      instructions              #    2.39  insn per cycle           ( +-  0.00% )
-     1,967,693,123      cycles                                                        ( +-  2.84% )
+         7,736,970      cache-misses              #    7.212 % of all cache refs      ( +- 27.18% )
+       107,284,428      cache-references                                              ( +-  7.46% )
+     4,701,056,279      instructions              #    2.35  insn per cycle           ( +-  0.00% )
+     2,003,483,495      cycles                                                        ( +-  3.52% )
 
-            0.7804 +- 0.0259 seconds time elapsed  ( +-  3.31% )
+            0.7878 +- 0.0369 seconds time elapsed  ( +-  4.68% )
 ```
 
 GFLOPS of vector matrix ver.2 in Ofast:  
@@ -1049,12 +1049,12 @@ GFLOPS of vector matrix ver.2 in Ofast:
 ```
  Performance counter stats for './vector-matrixOfastV2' (10 runs):
 
-         6,494,478      cache-misses              #    5.938 % of all cache refs      ( +- 29.87% )
-       109,363,835      cache-references                                              ( +-  6.26% )
-     4,728,495,982      instructions              #    2.42  insn per cycle           ( +-  0.00% )
-     1,955,966,265      cycles                                                        ( +-  2.66% )
+         7,426,730      cache-misses              #    6.947 % of all cache refs      ( +- 30.82% )
+       106,911,190      cache-references                                              ( +-  7.81% )
+     4,728,534,699      instructions              #    2.38  insn per cycle           ( +-  0.00% )
+     1,987,159,173      cycles                                                        ( +-  3.30% )
 
-            0.7634 +- 0.0324 seconds time elapsed  ( +-  4.25% )
+            0.7834 +- 0.0340 seconds time elapsed  ( +-  4.34% )
 ```
 
 comparing with version 1, this version doesn't need the data reordering (less instructions), more the cache miss counts but less the cache reference counts, so the performance is much better.  
