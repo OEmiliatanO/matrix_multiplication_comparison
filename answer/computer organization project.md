@@ -124,35 +124,35 @@ __c.__
 matrix multiplication programs will run 10 times on every test data (n=192,384,576,768,960), every optimization flags (O0,O1,O2,O3,Ofast), every block size (4,8,16,32,64,70,80,90,128,256), and record the execution time of ```MMUL()```.  
 later, a python program calculates average execution time, maximum/minimum execution time, standard deviation of execution time, and average GFLOPS.  
 
-gflops of standard version and blocked version in -O0:  
+GFLOPS of standard version and blocked version in -O0:  
 
 ![](https://i.imgur.com/BvRNVGn.png)
 
 ![](https://i.imgur.com/5rbCW9D.png)
 
 
-gflops of standard version and blocked version in -O1:  
+GFLOPS of standard version and blocked version in -O1:  
 
 ![](https://i.imgur.com/67AWMM9.png)
 
 ![](https://i.imgur.com/160fyFx.png)
 
 
-gflops of standard version and blocked version in -O2:  
+GFLOPS of standard version and blocked version in -O2:  
 
 ![](https://i.imgur.com/UdSknga.png)
 
 ![](https://i.imgur.com/3RS7wrA.png)
 
 
-gflops of standard version and blocked version in -O3:  
+GFLOPS of standard version and blocked version in -O3:  
 
 ![](https://i.imgur.com/yisd71Q.png)
 
 ![](https://i.imgur.com/MQdixyc.png)
 
 
-gflops of standard version and blocked version in -Ofast:  
+GFLOPS of standard version and blocked version in -Ofast:  
 
 ![](https://i.imgur.com/fDGDGoN.png)
 
@@ -174,11 +174,11 @@ auto T = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 
 i think it's an appropriate way to measure "a function" executing time.  
 but if i want to measure "a program" execution time, the command, ```time```, provided by linux is the better way.  
-moreover, the linux kernel tool, ```perf```, is an even better way to measure a process executing time and collect some hardware data, e.g. cache miss, cache reference, instruction count.
+moreover, the linux kernel tool, ```perf```, is an even better way to measure a process executing time and collect some CPU info in executing program, e.g. cache miss, cache reference, instruction counts.
 
 __e.__  
-the difference between standard and blocked version are, the counts of __cache reference__ and __cache misses__.  
-since the blocked version divides the big matrix into pieces, the cache miss rate is lower than the standard one.  
+the difference between standard and blocked version are, the counts of __cache references__ and __cache misses__.  
+since the blocked version divides the big matrix into pieces, the cache misses counts is lower than the standard one.  
 
 for example, this is the CPU info of standard version in $n=960$ :
 ```
@@ -218,8 +218,140 @@ same version but block size is 64:
 
 can be seen that the __cache misses in blocked version is less than standard version___.
 
-the CPU info of different data size:  
+let's look into the impact of different data size:  
+- $n=192$
 
+standard version:
+```
+ Performance counter stats for './matrixO0' (10 runs):
+
+           106,895      cache-misses              #    1.346 % of all cache refs      ( +-  3.98% )
+         7,940,962      cache-references                                              ( +-  0.46% )
+       544,471,973      instructions              #    3.25  insn per cycle           ( +-  0.00% )
+       167,631,313      cycles                                                        ( +-  0.26% )
+
+           0.07048 +- 0.00107 seconds time elapsed  ( +-  1.52% )
+```
+
+blocked version, block size = 128:
+```
+ Performance counter stats for './blocked-matrixB128O0' (10 runs):
+
+            98,791      cache-misses              #    3.204 % of all cache refs      ( +-  2.15% )
+         3,083,612      cache-references                                              ( +-  0.83% )
+       715,911,619      instructions              #    3.54  insn per cycle           ( +-  0.00% )
+       202,427,783      cycles                                                        ( +-  0.12% )
+
+          0.084390 +- 0.000992 seconds time elapsed  ( +-  1.18% )
+```
+
+- $n=384$
+
+standard version:
+```
+ Performance counter stats for './matrixO0' (10 runs):
+
+         2,112,244      cache-misses              #    3.404 % of all cache refs      ( +-  6.72% )
+        62,043,825      cache-references                                              ( +-  0.47% )
+     3,720,123,833      instructions              #    3.54  insn per cycle           ( +-  0.01% )
+     1,052,366,945      cycles                                                        ( +-  0.23% )
+
+           0.42687 +- 0.00193 seconds time elapsed  ( +-  0.45% )
+```
+
+blocked version, block size = 128:
+```
+ Performance counter stats for './blocked-matrixB128O0' (10 runs):
+
+           220,852      cache-misses              #    0.799 % of all cache refs      ( +-  0.78% )
+        27,640,480      cache-references                                              ( +-  0.40% )
+     5,084,310,460      instructions              #    3.87  insn per cycle           ( +-  0.00% )
+     1,312,470,789      cycles                                                        ( +-  0.08% )
+
+           0.52843 +- 0.00116 seconds time elapsed  ( +-  0.22% )
+```
+
+- $n=576$
+
+standard version:
+```
+ Performance counter stats for './matrixO0' (10 runs):
+
+        10,765,510      cache-misses              #    5.176 % of all cache refs      ( +-  7.13% )
+       207,970,299      cache-references                                              ( +-  0.89% )
+    11,866,131,508      instructions              #    3.64  insn per cycle           ( +-  0.00% )
+     3,261,742,974      cycles                                                        ( +-  0.31% )
+
+            1.1011 +- 0.0822 seconds time elapsed  ( +-  7.47% )
+```
+
+blocked version, block size = 128:
+```
+ Performance counter stats for './blocked-matrixB128O0' (10 runs):
+
+           623,016      cache-misses              #    0.639 % of all cache refs      ( +-  5.10% )
+        97,500,272      cache-references                                              ( +-  1.36% )
+    16,524,654,323      instructions              #    3.97  insn per cycle           ( +-  0.00% )
+     4,160,590,668      cycles                                                        ( +-  0.09% )
+
+             1.344 +- 0.107 seconds time elapsed  ( +-  7.95% )
+```
+
+- $n=768$
+
+standard version:
+```
+ Performance counter stats for './matrixO0' (10 runs):
+
+        22,595,185      cache-misses              #    4.379 % of all cache refs      ( +-  5.66% )
+       516,047,305      cache-references                                              ( +-  0.85% )
+    27,318,174,007      instructions              #    3.68  insn per cycle           ( +-  0.00% )
+     7,420,095,030      cycles                                                        ( +-  0.15% )
+
+             2.139 +- 0.175 seconds time elapsed  ( +-  8.20% )
+```
+
+blocked version, block size = 128:
+```
+ Performance counter stats for './blocked-matrixB128O0' (10 runs):
+
+         1,121,814      cache-misses              #    0.475 % of all cache refs      ( +-  3.22% )
+       236,109,274      cache-references                                              ( +-  1.18% )
+    38,314,518,495      instructions              #    4.04  insn per cycle           ( +-  0.00% )
+     9,483,123,332      cycles                                                        ( +-  0.07% )
+
+             2.660 +- 0.194 seconds time elapsed  ( +-  7.29% )
+```
+
+- $n=960$
+
+standard version:
+```
+ Performance counter stats for './matrixO0' (10 runs):
+
+        48,461,646      cache-misses              #    4.540 % of all cache refs      ( +- 11.90% )
+     1,067,320,326      cache-references                                              ( +-  2.53% )
+    52,413,831,567      instructions              #    3.41  insn per cycle           ( +-  0.00% )
+    15,360,089,940      cycles                                                        ( +-  0.88% )
+
+             4.055 +- 0.235 seconds time elapsed  ( +-  5.80% )
+```
+
+blocked version, block size = 128:
+```
+ Performance counter stats for './blocked-matrixB128O0' (10 runs):
+
+         1,987,038      cache-misses              #    0.408 % of all cache refs      ( +-  8.74% )
+       486,950,362      cache-references                                              ( +-  1.00% )
+    74,010,443,050      instructions              #    4.08  insn per cycle           ( +-  0.00% )
+    18,156,541,410      cycles                                                        ( +-  0.11% )
+
+             4.796 +- 0.289 seconds time elapsed  ( +-  6.02% )
+```
+
+can be seen the __cache misses/references in blocked version is much less than standard one__, and, __though these two counts increase when test data size increases, the amount of increasing in blocked version is much less than standard one__.  
+
+obviously, the __blocked version exploit more on the cache space__.  
 
 so i expect the execution time of blocked version is shorter than standard one.
 
@@ -305,12 +437,14 @@ there's a more convenient way to optimize without modifying the program, by usin
 
 one more thing to mention, there's a weird phenomenon that when using O1 optimization on the modified blocked version, the performance is worse than the unmodified one. but in the later optimization (O2,O3,Ofast) the performance is as good as the other one.  
 
+this phenomenon is shown below:
+
 GFLOPS performace of blocked version and modified blocked version in O1:  
 
 ![](https://i.imgur.com/160fyFx.png)
 
 ![](https://i.imgur.com/79Wji14.png)
-can see the performace is worse.  
+can be seen the performace is worse.  
 
 GFLOPS performace of blocked version and modified blocked version in O2:  
 
@@ -335,7 +469,7 @@ GFLOPS performace of blocked version and modified blocked version in Ofast:
 i think the reason why is that the compiler optimization in O1 has some conflicts with the manual optimization, so that the compiler can't 100% optimize the program.  
 but in O2 and others, the optimization is aggressive enough to optimize the whole program.
 
-so the conclusion is that, blocked version takes advantage __only when we do some extra optimization__.  
+so the conclusion is that, since the additional instructions in three-extra for-loop, blocked version takes advantage __only when we do some extra optimization__.  
 
 __f.__  
 ```O0```: no optimization. it's default flag if no optimization level is specified.  
@@ -351,12 +485,47 @@ __f.__
 basicly, optimize more means faster execution time.  
 but sometimes optimization can cause unexpected result. e.g. ```Ofast``` will change the floating number operation order, make the result different.  
 
+GFLOPS of standard version and blocked version in -O0:  
+
+![](https://i.imgur.com/BvRNVGn.png)
+
+![](https://i.imgur.com/5rbCW9D.png)
+
+
+GFLOPS of standard version and blocked version in -O1:  
+
+![](https://i.imgur.com/67AWMM9.png)
+
+![](https://i.imgur.com/160fyFx.png)
+
+
+GFLOPS of standard version and blocked version in -O2:  
+
+![](https://i.imgur.com/UdSknga.png)
+
+![](https://i.imgur.com/3RS7wrA.png)
+
+
+GFLOPS of standard version and blocked version in -O3:  
+
+![](https://i.imgur.com/yisd71Q.png)
+
+![](https://i.imgur.com/MQdixyc.png)
+
+
+GFLOPS of standard version and blocked version in -Ofast:  
+
+![](https://i.imgur.com/fDGDGoN.png)
+
+![](https://i.imgur.com/NZZE1xG.png)
+
+
 ## advanced questions
 __a.__  
-this problem has two solution:  
+this problem has two solutions:  
 1. change for-loop order:  
 the second and third, the fifth and sixth loop have been exchanged.  
-so in every iteration, the array ```B``` reads the next column instead of rows.
+so in every iteration, the array ```B``` reads the next column instead of next row.
 ```cpp
 inline void MMUL() noexcept
 {
@@ -374,7 +543,7 @@ inline void MMUL() noexcept
 
 2. transpose matrix B:  
 when read the data into array ```B```, transposing it.  
-when performing matrix multiplication, transposing it again. so that in every iteration the array ```B``` reads the next column instead of rows.
+when performing matrix multiplication, transposing it again. so that in every iteration the array ```B``` reads the next column instead of next row.
 ```cpp
 inline void MMUL() noexcept
 {
@@ -820,12 +989,12 @@ GFLOPS of vector matrix ver.2 in O0:
 ```
  Performance counter stats for './vector-matrixO0V2' (10 runs):
 
-         4,735,092      cache-misses              #    3.961 % of all cache refs      ( +- 34.17% )
-       119,535,729      cache-references                                              ( +-  4.75% )
-     9,645,654,696      instructions              #    1.97  insn per cycle           ( +-  0.00% )
-     4,896,032,179      cycles                                                        ( +-  2.38% )
+         5,136,434      cache-misses              #    4.227 % of all cache refs      ( +- 24.77% )
+       121,505,626      cache-references                                              ( +-  3.66% )
+    15,415,859,793      instructions              #    2.07  insn per cycle           ( +-  0.00% )
+     7,445,628,148      cycles                                                        ( +-  1.21% )
 
-             1.541 +- 0.147 seconds time elapsed  ( +-  9.53% )
+             2.140 +- 0.197 seconds time elapsed  ( +-  9.19% )
 ```
 
 GFLOPS of vector matrix ver.2 in O1:  
