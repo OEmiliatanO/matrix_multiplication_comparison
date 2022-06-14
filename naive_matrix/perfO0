@@ -1,3 +1,5 @@
+ Performance counter stats for './perfmatrix' (10 runs):
+
         48,461,646      cache-misses              #    4.540 % of all cache refs      ( +- 11.90% )
      1,067,320,326      cache-references                                              ( +-  2.53% )
     52,413,831,567      instructions              #    3.41  insn per cycle           ( +-  0.00% )
